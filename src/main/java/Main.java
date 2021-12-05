@@ -10,8 +10,11 @@ public class Main {
     static Long userKey;
     static Long testKey;
 
+    // EntityManagerFactory 인스턴스를 생성하는 정적 메소드를 가지고 있는
+    // Persistence에서 createEntitymanagerFactory() 진행
+    static EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpatest");
+
     public static void main(String[] args){
-        //transaction(TransactionType.SESSION3);
 
         // 사용자 정보 저장
         System.out.println("사용자 정보 저장을 시작합니다.");
@@ -21,13 +24,10 @@ public class Main {
         System.out.println("검사가 끝났으니 저장을 진행합니다");
         transaction(TransactionType.SESSION2);
 
+        emf.close();
     }
 
     public static void transaction(TransactionType session){
-        // EntityManagerFactory 인스턴스를 생성하는 정적 메소드를 가지고 있는
-        // Persistence에서 createEntitymanagerFactory() 진행
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("jpatest");
-        //EntityManagerFactory emf = new HibernatePersistenceProvider().createEntityManagerFactory("jpatest",new HashMap());
         // EntityManagerFactory로부터 EntityManager생성
         EntityManager em = emf.createEntityManager();
 
@@ -51,7 +51,6 @@ public class Main {
             et.rollback();  // 이전 commit 상태로 롤백
         }finally{
             em.close();
-            emf.close();
         }
     }
 
@@ -59,7 +58,7 @@ public class Main {
 
         // 1. 어떤 Test를 볼지 정하기
         Test test = new Test();
-        TestInfo testInfo = em.find(TestInfo.class, (long) 3);
+        TestInfo testInfo = em.find(TestInfo.class, (long) 4);
 
         // 2. 검사자 정보 등록
         Student student = new Student();
@@ -77,10 +76,8 @@ public class Main {
     }
 
     public static void insertTestResult(EntityManager em){
-        // 해당하는 학생 불러오기
-//        Student student = em.find(Student.class,(long) userKey);
 
-        // 해당 학생의 Test정보 가져오기
+        // 학생의 Test정보 가져오기
         Test test = em.find(Test.class,testKey);
 
         // Test에서 선택한 아이템 넣기
@@ -90,7 +87,6 @@ public class Main {
             checkedItem.setItemresult(i);
             test.addCheckedItems(checkedItem);
         }
-
     }
 
     // 검사 목록 초기화
