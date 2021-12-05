@@ -4,9 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 public class Main {
     static Long userKey;
@@ -80,7 +78,7 @@ public class Main {
 
     public static void insertTestResult(EntityManager em){
         // 해당하는 학생 불러오기
-        Student student = em.find(Student.class,(long) userKey);
+//        Student student = em.find(Student.class,(long) userKey);
 
         // 해당 학생의 Test정보 가져오기
         Test test = em.find(Test.class,testKey);
