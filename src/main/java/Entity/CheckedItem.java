@@ -9,9 +9,14 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "CHECKEDITEM")
+@SequenceGenerator(
+        name = "CHECKEDITEM_SEQ_GENERATOR",
+        sequenceName = "CHECKEDITEM_SEQ", // 매핑할 데이터베이스 시퀀스 이름
+        initialValue = 1, allocationSize = 187
+)
 public class CheckedItem {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CHECKEDITEM_SEQ_GENERATOR")
     private Long id;
 
     @ManyToOne

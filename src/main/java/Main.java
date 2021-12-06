@@ -16,6 +16,10 @@ public class Main {
 
     public static void main(String[] args){
 
+//        transaction(TransactionType.SESSION3);
+
+        long before = checkTime();
+
         // 사용자 정보 저장
         System.out.println("사용자 정보 저장을 시작합니다.");
         transaction(TransactionType.SESSION1);
@@ -25,6 +29,10 @@ public class Main {
         transaction(TransactionType.SESSION2);
 
         emf.close();
+
+        long after = checkTime();
+
+        System.out.println("소요시간 : " + (after - before));
     }
 
     public static void transaction(TransactionType session){
@@ -62,8 +70,8 @@ public class Main {
 
         // 2. 검사자 정보 등록
         Student student = new Student();
-        student.setName("홍길동");
-        student.setEmail("Gildong@daou.co.kr");
+        student.setName("김가람");
+        student.setEmail("0410garam@daou.co.kr");
         test.setDate(new Date());
         test.setTestInfo(testInfo);
 
@@ -81,7 +89,7 @@ public class Main {
         Test test = em.find(Test.class,testKey);
 
         // Test에서 선택한 아이템 넣기
-        for(int i = 1; i<11; i++){
+        for(int i = 1; i<188; i++){
             CheckedItem checkedItem = new CheckedItem();
             checkedItem.setItemnumber(i);
             checkedItem.setItemresult(i);
@@ -96,5 +104,11 @@ public class Main {
             testInfo.setTestname("검사"+i);
             em.persist(testInfo);
         }
+    }
+
+    public static long checkTime(){
+        long time = System.currentTimeMillis();
+
+        return time;
     }
 }
